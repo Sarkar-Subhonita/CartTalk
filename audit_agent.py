@@ -54,7 +54,22 @@ API_KEYS = [k.strip() for k in _raw_keys.split(",") if k.strip()]
 if not API_KEYS:
     raise SystemExit("No GEMINI_API_KEY or GEMINI_API_KEYS found in .env")
 _clients = [genai.Client(api_key=k) for k in API_KEYS]
-_next_key_index = 0  # round-robins across separate sessions, never within one
+
+# Rotation needs to survive across separate `python audit_agent.py` runs —
+# an in-memory counter resets to 0 every process start, which meant every
+# fresh run kept picking the same (often already-exhausted) first key. A
+# tiny local state file fixes that.
+_ROTATION_STATE_FILE = ".key_rotation_state"
+
+def _get_next_key_index() -> int:
+    try:
+        with open(_ROTATION_STATE_FILE) as f:
+            index = int(f.read().strip())
+    except (FileNotFoundError, ValueError):
+        index = 0
+    with open(_ROTATION_STATE_FILE, "w") as f:
+        f.write(str((index + 1) % len(_clients)))
+    return index % len(_clients)
 
 
 # ---------------------------------------------------------------------------
@@ -214,14 +229,15 @@ TOOLS = [
 
 class CartTalkSession:
     def __init__(self):
-        global _next_key_index
         # previous_interaction_id (used below) is server-side state owned by
         # whichever key/project created it — switching keys mid-conversation
         # would make later calls reference an interaction the new key can't
         # see (404 Not Found). So each session is pinned to ONE client for
-        # its whole life; rotation happens across separate sessions instead.
-        self.client = _clients[_next_key_index]
-        _next_key_index = (_next_key_index + 1) % len(_clients)
+        # its whole life; rotation happens across separate sessions instead,
+        # persisted to disk so it survives separate script runs.
+        key_index = _get_next_key_index()
+        self.client = _clients[key_index]
+        print(f"  [using key #{key_index + 1} of {len(_clients)}]")
 
         self.previous_interaction_id = None
         self.pending_order = None
