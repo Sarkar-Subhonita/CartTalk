@@ -1,0 +1,61 @@
+[
+  {
+    "session_id": "8e3646a2",
+    "timestamp": "2026-09-05T09:43:30+00:00",
+    "event_type": "reasoning",
+    "actor": "user",
+    "payload": {
+      "message": "i want a cast iron tawa for my kitchen."
+    }
+  },
+  {
+    "session_id": "8e3646a2",
+    "timestamp": "2026-09-05T09:43:46+00:00",
+    "event_type": "search",
+    "actor": "agent",
+    "payload": {
+      "raw_query": "cast iron tawa",
+      "candidate_ids_returned": [
+        "HS-009",
+        "HS-003",
+        "HS-019"
+      ],
+      "result_count": 3
+    }
+  },
+  {
+    "session_id": "8e3646a2",
+    "timestamp": "2026-09-05T09:43:57+00:00",
+    "event_type": "search",
+    "actor": "agent",
+    "payload": {
+      "raw_query": "cookware",
+      "candidate_ids_returned": [
+        "HS-009"
+      ],
+      "result_count": 1
+    }
+  },
+  {
+    "session_id": "8e3646a2",
+    "timestamp": "2026-09-05T09:44:03+00:00",
+    "event_type": "search",
+    "actor": "agent",
+    "payload": {
+      "raw_query": "pan",
+      "candidate_ids_returned": [
+        "HS-016"
+      ],
+      "result_count": 1
+    }
+  },
+  {
+    "session_id": "8e3646a2",
+    "timestamp": "2026-09-05T09:44:09+00:00",
+    "event_type": "reasoning",
+    "actor": "agent",
+    "payload": {
+      "reply": "Our **Cast Iron Tawa (Griddle)** (25cm, ₹1,099) is currently out of stock. \n\nWhile we don't have another tawa available right now, we do have other kitchen items in stock, like our **Glass Jar Storage Set (Set of 3)** (₹649). Would you like details on those, or to look for something else for your kitchen?"
+    }
+  }
+]

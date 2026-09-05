@@ -1,0 +1,137 @@
+[
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:23:44+00:00",
+    "event_type": "reasoning",
+    "actor": "user",
+    "payload": {
+      "message": "i want a gift for my brother's birthday."
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:23:49+00:00",
+    "event_type": "search",
+    "actor": "agent",
+    "payload": {
+      "raw_query": "gift for brother birthday",
+      "candidate_ids_returned": [
+        "HS-002",
+        "HS-003",
+        "HS-005",
+        "HS-007",
+        "HS-009"
+      ],
+      "result_count": 5
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:24:22+00:00",
+    "event_type": "reasoning",
+    "actor": "agent",
+    "payload": {
+      "reply": "Here are three great birthday gift ideas from our collection:\n\n1. **Ceramic Pour-Over Coffee Dripper** (₹1,249) – Crafted from stoneware ceramic, perfect if he's a coffee enthusiast looking for a premium morning brew.\n2. **Bamboo Cutting Board** (₹749) – Made from eco-friendly bamboo, durable and practical if he enjoys cooking.\n3. **Terracotta Planter with Saucer** (₹549) – Natural terracotta clay, an affordable option to add some greenery to his desk or room.\n\nDo any of these sound like a good fit, or do you have a specific budget or interest in mind?"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:32:26+00:00",
+    "event_type": "reasoning",
+    "actor": "user",
+    "payload": {
+      "message": "bamboo cutting board"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:32:43+00:00",
+    "event_type": "reasoning",
+    "actor": "agent",
+    "payload": {
+      "tool": "start_checkout",
+      "order": {
+        "product_id": "HS-005",
+        "name": "Bamboo Cutting Board with Handle",
+        "price_inr": 749,
+        "quantity": 1,
+        "total_inr": 749,
+        "confirmed": true,
+        "value_cap_triggered": false,
+        "cap_confirmed": false
+      }
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:32:55+00:00",
+    "event_type": "reasoning",
+    "actor": "agent",
+    "payload": {
+      "reply": "Here is your order summary:\n\n- **Item**: Bamboo Cutting Board with Handle\n- **Price**: ₹749\n- **Quantity**: 1\n- **Total**: ₹749\n\nWould you like to confirm this order?"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:32:59+00:00",
+    "event_type": "reasoning",
+    "actor": "user",
+    "payload": {
+      "message": "yes"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:32:59+00:00",
+    "event_type": "confirmation",
+    "actor": "system",
+    "payload": {
+      "stage": "order",
+      "raw_text": "yes",
+      "result": true,
+      "path": "whitelist_confirm:^yes\\b"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:33:09+00:00",
+    "event_type": "api_call",
+    "actor": "system",
+    "payload": {
+      "endpoint": "orders",
+      "status": "success",
+      "razorpay_order_id": "order_TYJ77v1Nl29qov"
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:33:11+00:00",
+    "event_type": "api_call",
+    "actor": "system",
+    "payload": {
+      "endpoint": "payment_links",
+      "status": "success",
+      "razorpay_order_id": "order_TYJ77v1Nl29qov",
+      "payment_link": "https://rzp.io/rzp/bnHhwyHD",
+      "order": {
+        "product_id": "HS-005",
+        "name": "Bamboo Cutting Board with Handle",
+        "price_inr": 749,
+        "quantity": 1,
+        "total_inr": 749,
+        "confirmed": true,
+        "value_cap_triggered": false,
+        "cap_confirmed": false
+      }
+    }
+  },
+  {
+    "session_id": "3ceef26a",
+    "timestamp": "2026-09-05T09:33:22+00:00",
+    "event_type": "reasoning",
+    "actor": "agent",
+    "payload": {
+      "reply": "Your payment link has been generated! You can complete your purchase here: https://rzp.io/rzp/bnHhwyHD\n\nThank you for shopping with Homestead!"
+    }
+  }
+]
