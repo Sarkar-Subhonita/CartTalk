@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 homestead.db
 audit_log_*.json
+.key_rotation_state

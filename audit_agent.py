@@ -236,6 +236,7 @@ class CartTalkSession:
         # its whole life; rotation happens across separate sessions instead,
         # persisted to disk so it survives separate script runs.
         key_index = _get_next_key_index()
+        self.client_index = key_index
         self.client = _clients[key_index]
         print(f"  [using key #{key_index + 1} of {len(_clients)}]")
 
@@ -427,7 +428,31 @@ class CartTalkSession:
                 "APIConnectionError", "timeout", "Timeout", "aborted", "10053", "10054",
             ])
 
-        last_err = None
+        # No conversation exists yet on ANY key (this is the first call of
+        # the session) — safe to try every key, since nothing is pinned to
+        # one yet. Whichever key succeeds first owns this session from here
+        # on, since its interaction id will only exist there.
+        if kwargs.get("previous_interaction_id") is None:
+            last_err = None
+            for offset in range(len(_clients)):
+                idx = (self.client_index + offset) % len(_clients)
+                try:
+                    result = _clients[idx].interactions.create(**kwargs)
+                    self.client_index = idx
+                    self.client = _clients[idx]
+                    return result
+                except Exception as e:
+                    last_err = e
+                    if not is_transient(e):
+                        raise
+                    print(f"  (key #{idx + 1} failed, trying next: {e})")
+            # every key failed on the first message — fall through to
+            # waiting below rather than giving up immediately
+        else:
+            last_err = None
+
+        # Mid-conversation (or all keys exhausted above): previous_interaction_id
+        # ties us to self.client specifically, so retry that same key with backoff.
         for attempt in range(1, 4):
             try:
                 return self.client.interactions.create(**kwargs)
